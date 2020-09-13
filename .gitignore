@@ -1,2 +1,4 @@
+pruebas/
 node_modules/
 dist/
+.env
