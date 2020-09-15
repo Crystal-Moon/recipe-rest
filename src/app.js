@@ -1,7 +1,6 @@
 import express from 'express'
 import { merge } from 'lodash'
 import { ApolloServer, gql, AuthenticationError } from 'apollo-server-express'
-import { Auth } from './entity/Auth'
 require('dotenv').config();
 
 // -- database
@@ -29,7 +28,7 @@ createConnection().then(connection => {
         .getRepository(User)
         .findOne(1)
         .then(user => {
-            console.log("get user test: ", user);
+            console.log('conexxion exito');
         });
 
 }).catch(error => {
@@ -39,15 +38,7 @@ console.log("Error: ", error)
 const server = new ApolloServer({ 
   typeDefs: [schQuery, schMutation, schRecipe, schUser], 
   resolvers: merge(resUser, resRecipe),
-  context: ({ req })=>{
-    let token = req.headers.authorization || '';
-    if(!token) throw new AuthenticationError('TOKEN_NOT_FOUND');
-
-    let who=Auth.decode(token);
-    if(!who) throw new AuthenticationError('BAD_TOKEN');
-  
-    return { who }
-  }
+  context:({req})=>({ token: req.headers.authorization || '' })
 });
  
 const app = express();
