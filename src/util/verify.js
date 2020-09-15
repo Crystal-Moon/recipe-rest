@@ -1,14 +1,15 @@
 
-
-
-import user from './rules/user';
+import user from './rules/user'
+import recipe from './rules/recipe'
+import ingredient from './rules/ingredient'
+import category from './rules/category'
 
 const RULES={user}
 
 export const verifyFields = async(rule, obj, lang='es') =>{
 try{
   let r=RULES[rule];
-//console.log('el obj que llega',obj)
+//console.log('el obj que llega a verify',obj)
 
   for(let k in obj){
 
