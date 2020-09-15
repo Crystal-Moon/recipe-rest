@@ -1,6 +1,7 @@
 import express from 'express'
 import { merge } from 'lodash'
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer, gql, AuthenticationError } from 'apollo-server-express'
+import { Auth } from './entity/Auth'
 require('dotenv').config();
 
 // -- database
@@ -36,8 +37,17 @@ console.log("Error: ", error)
 });
 
 const server = new ApolloServer({ 
-	typeDefs: [schQuery, schMutation, schRecipe, schUser], 
-	resolvers: merge(resUser, resRecipe)
+  typeDefs: [schQuery, schMutation, schRecipe, schUser], 
+  resolvers: merge(resUser, resRecipe),
+  context: ({ req })=>{
+    let token = req.headers.authorization || '';
+    if(!token) throw new AuthenticationError('TOKEN_NOT_FOUND');
+
+    let who=Auth.decode(token);
+    if(!who) throw new AuthenticationError('BAD_TOKEN');
+  
+    return { who }
+  }
 });
  
 const app = express();

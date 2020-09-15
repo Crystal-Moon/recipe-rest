@@ -17,7 +17,7 @@ export class Auth {
 	  try{ 
   		return jwt.verify(token,process.env.JWT_KEY)
 	  }catch(e){ 
-	  	return e;
+	  	return 0;
 	  }
 	}
 
