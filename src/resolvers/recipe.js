@@ -4,11 +4,9 @@ import { getConnection, getManager, UpdateResult, DeleteResult } from 'typeorm'
 import { combineResolvers } from 'graphql-resolvers'
 import { verifyFields, isAuthenticated } from '../util/verify'
 
-import E400 from '../util/E400'
-import { Recipe } from '../entity/User'
-//import { Auth } from '../util/Auth' //from verify
-import { Auth } from '../entity/Auth'
 
+import { Recipe } from '../entity/Recipe'
+import { Category } from '../entity/Category'
 
 export default {
 	Query:{
@@ -17,26 +15,25 @@ export default {
 
 	Mutation:{
 		createRecipe: combineResolvers( isAuthenticated, 
-		  async(_, body ,{ who })=>{
-		  	console.log('lo q llega al create')
-		/*  	console.log('name',name)
-		  	console.log('ingredients',ingredients);
-		  	console.log('category',category);
-		  	console.log('description',description);
-		  	*/
-		  	console.log('el body ', body)
-
-		  	let bad = await verifyFields('recipe',body)
-		  	console.log('el bad',bad)
-
+		  async(_, newRecipe ,{ who })=>{
+		  	let bad = await verifyFields('recipe', newRecipe, who.lang);
 		  	if(bad) throw new UserInputError( bad );
 
-		  	return {name: body.name, ingredients: body.ingredients};
-
-		})
+		  	return getConnection().getRepository(Category).findOne({ name: newRecipe.category.name.toLowerCase() })
+		  	  	.then(async category=>{
+		  			newRecipe.category=category || await newCategory(newRecipe.category.name).then(category=>category);
+		  			newRecipe.author=who;
+		  			return getConnection().getRepository(Recipe).save(newRecipe).then(recipe=>recipe);
+		  		});
+		});
 //    	createCategory(name: String!): Category
 //    	updateRecipe(id: Int!): Recipe
 //    	updateCategory(id: Int!, name: String!): Category
 //    	deleteRecipe(id: Int!): Boolean
 	}
 }
+
+const newCategory=(name)=>
+	getConnection().getRepository(Category)
+	.save({ name: name.toLowerCase() })
+	.then(category=>category);

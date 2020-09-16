@@ -2,7 +2,7 @@ export default `
   type Recipe {
     id: Int
     name: String
-    author: String
+    author: User
     description: String
     ingredients: [Ingredient]
     category: Category

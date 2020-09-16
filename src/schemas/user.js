@@ -8,7 +8,5 @@ export default `
   type User {
     id: Int
     name: String
-    email: String
-    lang: String
   }
 `;
