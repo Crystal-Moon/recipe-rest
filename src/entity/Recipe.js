@@ -27,7 +27,7 @@ export class Recipe {
     @ManyToOne(type => User, user=>user.id, { eager: true })
     author = undefined;
 
-    @ManyToOne(type => Category, { eager: true })
+    @ManyToOne(type => Category, { cascade: true, eager: true })
     category = undefined;
 
 }

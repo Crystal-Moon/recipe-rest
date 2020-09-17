@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { User } from './User'
 
 @Entity()
 export class Category {
@@ -12,5 +13,8 @@ export class Category {
         length: 50,
     })
 	name = '';
+
+	@ManyToOne(type => User, user=>user.id, { eager: true })
+    author = undefined;
 	
 }
