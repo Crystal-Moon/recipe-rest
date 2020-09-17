@@ -15,6 +15,12 @@ export class Recipe {
     })
     name = '';
 
+    @Column({
+        type: 'varchar',
+        length: 500,
+    })
+    description = '';
+
     @OneToMany(type => Ingredient, ingredient => ingredient.recipe, { cascade: true, onDelete: 'CASCADE', eager: true })
     ingredients = undefined;
 

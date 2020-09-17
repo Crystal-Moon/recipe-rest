@@ -1,8 +1,9 @@
 
-import { AuthenticationError, UserInputError } from 'apollo-server-express'
+import { AuthenticationError, UserInputError, ForbiddenError, ApolloError } from 'apollo-server-express'
 import { getConnection, getManager, UpdateResult, DeleteResult } from 'typeorm'
 import { combineResolvers } from 'graphql-resolvers'
 import { verifyFields, isAuthenticated } from '../util/verify'
+import E400 from '../util/E400'
 
 
 import { Recipe } from '../entity/Recipe'
@@ -33,7 +34,20 @@ export default {
 
 		  	return newCategory(name);
 		}),
-//    	updateRecipe(id: Int!): Recipe
+    	updateRecipe: combineResolvers( isAuthenticated,
+    	  async(_, updateRecipe, { who })=>{
+    	  	let recipe= await getConnection().getRepository(Recipe).findOne(updateRecipe.id).then(recipe=>recipe);
+    	  	if(!recipe) 
+    	  		throw new ApolloError(E400['NOT_FOUND'][who.lang],404)
+    	  	
+    	  	if(recipe.author.id != who.id)
+    	  		throw new ForbiddenError(E400['NOT_PERMISSION'][who.lang])
+
+    	  	let bad = await verifyFields('recipe', updateRecipe, who.lang);
+    	  	if(bad) throw new UserInputError( bad );
+
+    	  	return getConnection().getRepository(Recipe).save(updateRecipe).then(recipe=>recipe);
+    	}),
 //    	updateCategory(id: Int!, name: String!): Category
 //    	deleteRecipe(id: Int!): Boolean
 	}
