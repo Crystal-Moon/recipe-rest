@@ -19,16 +19,12 @@ export default {
 	},
 	ingredients:{
 		type: 'object',
-		format: async (x,l) =>{
-		  if(!Array.isArray(x) || !x[0]) return {
+		format: async (x,l) =>
+		  !Array.isArray(x) || !x[0] ?{
 			es: 'debe ser un array con al menos un elemento.',
 			en: 'must be an array with at least one element'
-		  };
-		  else{ let bad=null;	
-			for(let i=0; i<x.length; i++){ bad=await verifyFields('ingredient',x[i],l); if(bad) break }
-			return bad;
 		  }
-		},
+		  : x.reduce(async(bad,i)=>await verifyFields('ingredient',i,l),{}),
 	},
 	category:{
 		type: 'object',

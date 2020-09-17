@@ -24,8 +24,8 @@ export default {
 		  			newRecipe.category=category || await newCategory(newRecipe.category.name).then(category=>category);
 		  			newRecipe.author=who;
 		  			return getConnection().getRepository(Recipe).save(newRecipe).then(recipe=>recipe);
-		  		});
-		});
+		  		})
+		}),
 //    	createCategory(name: String!): Category
 //    	updateRecipe(id: Int!): Recipe
 //    	updateCategory(id: Int!, name: String!): Category
