@@ -26,7 +26,13 @@ export default {
 		  			return getConnection().getRepository(Recipe).save(newRecipe).then(recipe=>recipe);
 		  		})
 		}),
-//    	createCategory(name: String!): Category
+    	createCategory: combineResolvers( isAuthenticated, 
+		  async(_, { name } ,{ who })=>{
+		  	let bad = await verifyFields('category', {name}, who.lang)
+		  	if(bad) throw new UserInputError( bad );
+
+		  	return newCategory(name);
+		}),
 //    	updateRecipe(id: Int!): Recipe
 //    	updateCategory(id: Int!, name: String!): Category
 //    	deleteRecipe(id: Int!): Boolean
