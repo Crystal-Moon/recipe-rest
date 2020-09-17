@@ -7,8 +7,12 @@ export default {
 		es: "Inicie sesion nuevamente.",
 		en: "Login again please."
 	},
+	"EXISTS":{
+		es: "El correo ya existe.",
+		en: "The user already exists."
+	},
 	"NOT_FOUND":{
-		es: "Informacion no encontrada.",
+		es: "No encontrado.",
 		en: "Not found."
 	},
 	"NOT_PERMISSION":{

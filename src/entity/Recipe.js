@@ -30,4 +30,10 @@ export class Recipe {
     @ManyToOne(type => Category, { cascade: true, eager: true })
     category = undefined;
 
+    @Column({
+        type: 'boolean',
+        default: false
+    })
+    is_erase = false;
+
 }

@@ -18,7 +18,7 @@ export default {
 		createRecipe: combineResolvers( isAuthenticated, 
 		  async(_, newRecipe ,{ who })=>{
 		  	let bad = await verifyFields('recipe', newRecipe, who.lang);
-		  	if(bad) throw new UserInputError( bad );
+		  	if(bad) throw new UserInputError(bad);
 
 		  	return conn().getRepository(Category).findOne({ name: newRecipe.category.name.toLowerCase(), author: who })
 		  	  	.then(async category=>{
@@ -28,33 +28,45 @@ export default {
 		  		})
 		}),
 
-    	createCategory: combineResolvers( isAuthenticated, 
-		  async(_, { name } ,{ who })=>{
-		  	let bad = await verifyFields('category', { name }, who.lang)
-		  	if(bad) throw new UserInputError( bad );
-
-		  	return newCategory(name,who);
-		}),
-
     	updateRecipe: combineResolvers( isAuthenticated,
     	  async(_, update, { who })=>{
     	  	let recipe = await conn().getRepository(Recipe).findOne(update.id).then(recipe=>recipe);
     	  	if(!recipe) 
-    	  		throw new ApolloError(E400['NOT_FOUND'][who.lang],404)
+    	  		throw new ApolloError(E400['NOT_FOUND'][who.lang]);
     	  	
     	  	if(recipe.author.id != who.id)
-    	  		throw new ForbiddenError(E400['NOT_PERMISSION'][who.lang])
+    	  		throw new ForbiddenError(E400['NOT_PERMISSION'][who.lang]);
 
     	  	let bad = await verifyFields('recipe', update, who.lang);
     	  	if(bad) throw new UserInputError( bad );
 
     	  	return conn().getRepository(Category).findOne({ name: update.category.name.toLowerCase(), author: who })
 		  	  	.then(async category=>{
-		  	  		console.log('category en edit receta',category)
 		  			update.category = category || await newCategory(update.category.name, who).then(category=>category);
 		    	  	return conn().getRepository(Recipe).save(update).then(recipe=>recipe);
 		    	})
     	}),
+
+        deleteRecipe: combineResolvers( isAuthenticated,
+          (_, { id }, { who })=>{
+            return conn().getRepository(Recipe).findOne({ id, is_erase:false }).then(recipe=>{
+              if(!recipe)
+                throw new ApolloError(E400['NOT_FOUND'][who.lang]);
+
+              if(recipe.author.id != who.id)
+                throw new ForbiddenError(E400['NOT_PERMISSION'][who.lang]);
+
+              return conn().getRepository(Recipe).save({ id, is_erase:true }).then(ok=>true);
+            })
+        }),
+
+        createCategory: combineResolvers( isAuthenticated, 
+          async(_, { name } ,{ who })=>{
+            let bad = await verifyFields('category', { name }, who.lang);
+            if(bad) throw new UserInputError( bad );
+
+            return newCategory(name,who);
+        }),
 
     	updateCategory: combineResolvers(
     	  isAuthenticated,
@@ -70,10 +82,20 @@ export default {
     		if(bad) throw new UserInputError(bad);
 
     		return conn().getRepository(Category).save(update).then(category=>category);
-
     	}),
 
-//    	deleteRecipe(id: Int!): Boolean
+    	deleteCategory: combineResolvers( isAuthenticated,
+          (_, { id }, { who })=>{
+            return conn().getRepository(Category).findOne({ id, is_erase:false }).then(category=>{
+              if(!category)
+                throw new ApolloError(E400['NOT_FOUND'][who.lang]);
+
+              if(category.author.id != who.id)
+                throw new ForbiddenError(E400['NOT_PERMISSION'][who.lang]);
+
+              return conn().getRepository(Category).save({ id, is_erase:true }).then(ok=>true);
+            })
+        })
 	}
 }
 

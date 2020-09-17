@@ -20,25 +20,14 @@ import schRecipe from './schemas/recipe'
 import resUser from './resolvers/user'
 import resRecipe from './resolvers/recipe'
 
-createConnection().then(connection => {
-// -- TEST CONECTION
-    let user= new User();
-    user.name='some name test';
-    return connection
-        .getRepository(User)
-        .findOne(1)
-        .then(user => {
-            console.log('conexxion exito');
-        });
-
-}).catch(error => {
-console.log("Error: ", error)
-});
+createConnection()
+.then(conn => console.log('Connection success'))
+.catch(error => console.log('Error: ', error));
 
 const server = new ApolloServer({ 
   typeDefs: [schQuery, schMutation, schRecipe, schUser], 
   resolvers: merge(resUser, resRecipe),
-  context:({req})=>({ token: req.headers.authorization || '' }),
+  context:({req})=>({ token: req.headers['x-token'] || '' }),
   //introspection: true,
   //playground: true
 });
@@ -46,6 +35,4 @@ const server = new ApolloServer({
 const app = express();
 server.applyMiddleware({ app });
  
-app.listen({ port: 4000 }, () =>
-  console.log(`Server ready at http://localhost:4000${server.graphqlPath}`)
-);
+app.listen({ port: 4000 },()=> console.log(`Server ready at http://localhost:4000${server.graphqlPath}`));
