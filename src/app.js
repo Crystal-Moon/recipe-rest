@@ -38,7 +38,9 @@ console.log("Error: ", error)
 const server = new ApolloServer({ 
   typeDefs: [schQuery, schMutation, schRecipe, schUser], 
   resolvers: merge(resUser, resRecipe),
-  context:({req})=>({ token: req.headers.authorization || '' })
+  context:({req})=>({ token: req.headers.authorization || '' }),
+  //introspection: true,
+  //playground: true
 });
  
 const app = express();
@@ -47,9 +49,3 @@ server.applyMiddleware({ app });
 app.listen({ port: 4000 }, () =>
   console.log(`Server ready at http://localhost:4000${server.graphqlPath}`)
 );
-
-
-/*
-introspection: true,
-playground: true,
-*/

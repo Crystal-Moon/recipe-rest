@@ -1,6 +1,13 @@
 import { verifyFields } from '../verify'
 
 export default {
+	id:{
+		type: 'number',
+		format: x => /[0-9]{1,11}/.test(x)?false:{
+			es: 'debe ser un numero',
+			en: 'must be a number'
+		}
+	},
 	name:{
 		type: 'string',
 		format: x => /^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ]{2,50}$/.test(x)?false:

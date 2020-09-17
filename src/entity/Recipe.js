@@ -15,13 +15,13 @@ export class Recipe {
     })
     name = '';
 
-    @OneToMany(type => Ingredient, ingredient => ingredient.recipe, { cascade: true, onDelete: 'CASCADE' })
-    ingredients;// = Ingredient[];
+    @OneToMany(type => Ingredient, ingredient => ingredient.recipe, { cascade: true, onDelete: 'CASCADE', eager: true })
+    ingredients = undefined;
 
-    @ManyToOne(type => User, user=>user.id)
-    author;
+    @ManyToOne(type => User, user=>user.id, { eager: true })
+    author = undefined;
 
-    @ManyToOne(type => Category)
-    category; //Category;
+    @ManyToOne(type => Category, { eager: true })
+    category = undefined;
 
 }
