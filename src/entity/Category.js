@@ -17,4 +17,10 @@ export class Category {
 	@ManyToOne(type => User, user=>user.id, { eager: true })
     author = undefined;
 	
+	@Column({
+        type: 'boolean',
+        default: false
+    })
+    is_erase = false;
+
 }

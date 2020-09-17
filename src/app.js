@@ -19,6 +19,7 @@ import schRecipe from './schemas/recipe'
 // -- resolvers
 import resUser from './resolvers/user'
 import resRecipe from './resolvers/recipe'
+import resCategory from './resolvers/category'
 
 createConnection()
 .then(conn => console.log('Connection success'))
@@ -26,7 +27,7 @@ createConnection()
 
 const server = new ApolloServer({ 
   typeDefs: [schQuery, schMutation, schRecipe, schUser], 
-  resolvers: merge(resUser, resRecipe),
+  resolvers: merge(resUser, resRecipe, resCategory),
   context:({req})=>({ token: req.headers['x-token'] || '' }),
   //introspection: true,
   //playground: true

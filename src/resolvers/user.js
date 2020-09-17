@@ -2,12 +2,9 @@
 import { AuthenticationError, UserInputError } from 'apollo-server-express'
 import { getConnection as conn } from 'typeorm'
 import { verifyFields } from '../util/verify'
-
-import E400 from '../util/E400'
 import { User } from '../entity/User'
-//import { Auth } from '../util/Auth' //from verify
 import { Auth } from '../entity/Auth'
-
+import E400 from '../util/E400'
 
 export default {
 	Mutation:{
