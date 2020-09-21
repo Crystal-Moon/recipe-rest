@@ -10,7 +10,14 @@ import E400 from '../util/E400'
 
 export default {
 	Query:{
+        getRecipes: combineResolvers( isAuthenticated,
+          (_, __, { who })=>conn().getRepository(Recipe).find({ is_erase: false })),
 
+        //getOneRecipe(id: Int!): Recipe
+        //getRecipesByCategory(category: String!): [Recipe]
+        //getMyRecipes: [Recipe]
+        //getCategories: [Category]
+        //getOneCategory(id: Int!): Category
 	},
 
 	Mutation:{

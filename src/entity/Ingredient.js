@@ -21,6 +21,6 @@ export class Ingredient {
 	name = '';
 
 	@ManyToOne(type => Recipe, recipe => recipe.id)
-	recipe;
+	recipe = undefined;
 
 }
