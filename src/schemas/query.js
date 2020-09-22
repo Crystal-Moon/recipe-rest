@@ -4,7 +4,9 @@ export default `
     getOneRecipe(id: Int!): Recipe
     getRecipesByCategory(name: String!): [Recipe]
     getMyRecipes: [Recipe]
+
     getCategories: [Category]
     getOneCategory(id: Int!): Category
+    getMyCategories: [Category]
   }
 `;

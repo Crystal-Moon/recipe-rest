@@ -15,6 +15,7 @@ import schQuery from './schemas/query'
 import schMutation from './schemas/mutation'
 import schUser from './schemas/user'
 import schRecipe from './schemas/recipe'
+import schCategory from './schemas/category'
 
 // -- resolvers
 import resUser from './resolvers/user'
@@ -26,7 +27,7 @@ createConnection()
 .catch(error => console.log('Error: ', error));
 
 const server = new ApolloServer({ 
-  typeDefs: [schQuery, schMutation, schRecipe, schUser], 
+  typeDefs: [schQuery, schMutation, schRecipe, schUser, schCategory], 
   resolvers: merge(resUser, resRecipe, resCategory),
   context:({req})=>({ token: req.headers['x-token'] || '' }),
   //introspection: true,

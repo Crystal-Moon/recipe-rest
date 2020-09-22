@@ -8,8 +8,25 @@ import E400 from '../util/E400'
 
 export default {
 	Query:{
-        //getCategories: [Category]
-        //getOneCategory(id: Int!): Category
+        getCategories: combineResolvers( isAuthenticated,
+          (_,__,{ who })=>{
+            return conn().getRepository(Category).find({ is_erase: false })
+        }),
+
+        getOneCategory: combineResolvers( isAuthenticated,
+          (_,{ id },{ who })=>{
+            return conn().getRepository(Category).findOne({ is_erase: false, id }).then(category=>{
+              if(!category) 
+                throw new ApolloError(E400['NOT_FOUND'][who.lang]);
+
+              return category;
+            })
+        }),
+
+        getMyCategories: combineResolvers( isAuthenticated,
+          (_,__,{ who })=>{
+            return conn().getRepository(Category).find({ is_erase: false, author: who })
+        }),
 	},
 
 	Mutation:{
