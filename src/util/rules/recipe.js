@@ -31,7 +31,7 @@ export default {
 			es: 'debe ser una lista con al menos un elemento.',
 			en: 'must be a list with at least one element'
 		}
-		: x.reduce(async(_,i) => await verifyFields('ingredient',i,l),{}),
+		: x.reduce(async(bad,i) => bad || await verifyFields('ingredient',i,l),0),
 	},
 	category:{
 		type: 'object',
