@@ -1,4 +1,3 @@
-
 import { AuthenticationError } from 'apollo-server-express'
 import { skip } from 'graphql-resolvers'
 import { Auth } from '../entity/Auth'
@@ -20,32 +19,16 @@ const RULES={ user, recipe, ingredient, category }
 export const verifyFields = async(rule, obj, lang='es') =>{
 try{
   let r=RULES[rule];
-  //let bad=null;
-console.log('el obj que llega a verify',obj)
 
   for(let k in obj){
-
-/*console.log('rule:',rule,'k:',k,'requerid')
-  	if(!obj[k] && r[k].is_required)
-  		throw  {error_code: 'REQUERID', message: `${k.toUpperCase()} is requerid`};
-    */
-
-
-console.log('rule:',rule,'k:',k,'type')
   	if(typeof obj[k] != r[k].type)
   		throw `${k.toUpperCase()}: use '${r[k].type}'`;
 
     let bad_format=await r[k].format(obj[k],lang);
-console.log('rule:',rule,'k:',k,'format',bad_format)
-  	if(bad_format){
-      //console.log('f-format__rule:',rule,'k:',k, 'r:',r[k].format(obj[k]))
-  		//throw {error_code: 'INCORRECT_FORMAT', message: `${k.toUpperCase()}: ${bad_format}`};
-      throw `${rule.toUpperCase()}: ${k.toUpperCase()}: ${bad_format[lang]||bad_format}`
-      //throw bad_format
-    }
+  	if(bad_format)
+      throw `${rule.toUpperCase()}: ${k.toUpperCase()}: ${bad_format[lang]||bad_format}`;
   }
 
-  return 0;
-
+  return false;
 }catch(bad){ return bad }
 }

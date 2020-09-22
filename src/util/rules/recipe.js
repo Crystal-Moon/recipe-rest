@@ -10,10 +10,10 @@ export default {
 	},
 	name:{
 		type: 'string',
-		format: x => /^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ]{2,50}$/.test(x)?false:
+		format: x => /^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ()\[\]/\.\-_]{2,50}$/.test(x)?false:
 		{
-			es: 'debe tener entre 2 y 50 caracteres, sin simbolos',
-			en: 'must has between 2 y 50 caracters, without symbols'
+			es: 'debe tener entre 2 y 50 caracteres, sin simbolos especiales',
+			en: 'must has between 2 y 50 caracters, without special symbols'
 		}
 	},
 	description:{
@@ -26,12 +26,12 @@ export default {
 	},
 	ingredients:{
 		type: 'object',
-		format: async (x,l) =>
-		  !Array.isArray(x) || !x[0] ?{
+		format: (x,l) => (!Array.isArray(x) || !x[0])?
+		{
 			es: 'debe ser un array con al menos un elemento.',
 			en: 'must be an array with at least one element'
-		  }
-		  : x.reduce(async(_,i)=>await verifyFields('ingredient',i,l),{}),
+		}
+		: x.reduce(async(_,i) => await verifyFields('ingredient',i,l),{}),
 	},
 	category:{
 		type: 'object',

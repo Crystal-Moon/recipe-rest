@@ -52,7 +52,7 @@ export default {
 		  	if(bad) throw new UserInputError(bad);
 
 		  	return conn().getRepository(Category).findOne({ name: newRecipe.category.name.toLowerCase(), author: who })
-		  	  	.then(async category=>{
+		  	  .then(async category=>{
 		  			newRecipe.category = category || await newCategory(newRecipe.category.name, who).then(category=>category);
 		  			newRecipe.author = who;
 		  			return conn().getRepository(Recipe).save(newRecipe).then(recipe=>recipe);
