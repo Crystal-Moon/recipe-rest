@@ -11,13 +11,22 @@ import E400 from '../util/E400'
 export default {
 	Query:{
         getRecipes: combineResolvers( isAuthenticated,
-          (_, __, { who })=>conn().getRepository(Recipe).find({ is_erase: false })),
+          (_, __, { who })=>{
+            return conn().getRepository(Recipe).find({ is_erase: false })
+        }),
 
-        //getOneRecipe(id: Int!): Recipe
-        //getRecipesByCategory(category: String!): [Recipe]
-        //getMyRecipes: [Recipe]
-        //getCategories: [Category]
-        //getOneCategory(id: Int!): Category
+        getOneRecipe: combineResolvers( isAuthenticated,
+          (_, { id },{ who })=>{
+            return conn().getRepository(Recipe).findOne({ id }).then(recipe=>{
+              if(!recipe) 
+                throw new ApolloError(E400['NOT_FOUND'][who.lang]);
+
+              return recipe;
+            
+            })
+          }),
+
+        
 	},
 
 	Mutation:{

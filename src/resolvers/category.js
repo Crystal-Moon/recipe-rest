@@ -8,7 +8,8 @@ import E400 from '../util/E400'
 
 export default {
 	Query:{
-
+        //getCategories: [Category]
+        //getOneCategory(id: Int!): Category
 	},
 
 	Mutation:{
