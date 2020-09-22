@@ -14,13 +14,12 @@ export default {
     }),
 
     getOneCategory: combineResolvers( isAuthenticated,
-      (_,{ id },{ who })=>{
-        return conn().getRepository(Category).findOne({ is_erase: false, id }).then(category=>{
-          if(!category) 
-              throw new ApolloError(E400['NOT_FOUND'][who.lang]);
-    
-          return category;
-        })
+      async(_,{ id },{ who })=>{
+        let category = await conn().getRepository(Category).findOne({ is_erase: false, id });
+        if(!category) 
+            throw new ApolloError(E400['NOT_FOUND'][who.lang]);
+
+        return category;
     }),
 
     getMyCategories: combineResolvers( isAuthenticated,
@@ -33,15 +32,14 @@ export default {
     createCategory: combineResolvers( isAuthenticated, 
       async(_, { name } ,{ who })=>{
         let bad = await verifyFields('category', { name }, who.lang);
-        if(bad) throw new UserInputError(bad ;
+        if(bad) throw new UserInputError(bad);
 
         return newCategory(name,who);
     }),
 
     updateCategory: combineResolvers( isAuthenticated,
-      async(_, { id, name }, { who })=>{
+    	async(_, { id, name }, { who })=>{
     		let category = await conn().getRepository(Category).findOne(id);
-
     		if(!category)
     			throw new ApolloError(E400['NOT_FOUND'][who.lang]);
 
@@ -51,20 +49,19 @@ export default {
     		let bad = await verifyFields('category', { id, name }, who.lang);
     		if(bad) throw new UserInputError(bad);
 
-    		return conn().getRepository(Category).save({ id, name }).then(category=>category);
+    		return conn().getRepository(Category).save({ id, name });
     }),
 
     deleteCategory: combineResolvers( isAuthenticated,
-      (_, { id }, { who })=>{
-        return conn().getRepository(Category).findOne({ id, is_erase:false }).then(category=>{
-          if(!category)
-              throw new ApolloError(E400['NOT_FOUND'][who.lang]);
+      async(_, { id }, { who })=>{
+        let category = await conn().getRepository(Category).findOne({ id, is_erase:false });
+        if(!category)
+            throw new ApolloError(E400['NOT_FOUND'][who.lang]);
 
-          if(category.author.id != who.id)
-              throw new ForbiddenError(E400['NOT_PERMISSION'][who.lang]);
+        if(category.author.id != who.id)
+            throw new ForbiddenError(E400['NOT_PERMISSION'][who.lang]);
 
-          return conn().getRepository(Category).save({ id, is_erase:true }).then(ok=>true);
-        })
+        return conn().getRepository(Category).save({ id, is_erase:true }).then(ok=>true);
     })
 	}
 }
