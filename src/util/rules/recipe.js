@@ -28,8 +28,8 @@ export default {
 		type: 'object',
 		format: (x,l) => (!Array.isArray(x) || !x[0])?
 		{
-			es: 'debe ser un array con al menos un elemento.',
-			en: 'must be an array with at least one element'
+			es: 'debe ser una lista con al menos un elemento.',
+			en: 'must be a list with at least one element'
 		}
 		: x.reduce(async(_,i) => await verifyFields('ingredient',i,l),{}),
 	},

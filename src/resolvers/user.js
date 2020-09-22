@@ -7,38 +7,36 @@ import { Auth } from '../entity/Auth'
 import E400 from '../util/E400'
 
 export default {
-	Mutation:{
-		registrate: async(_, { name, email, pass, lang='es' })=>{
-		  let bad = await verifyFields('user',{name, email, pass}, lang);
-		  if(bad) throw new UserInputError(bad);
+  Mutation:{
+	registrate: async(_, { name, email, pass, lang='es' })=>{
+	  let bad = await verifyFields('user',{name, email, pass}, lang);
+	  if(bad) throw new UserInputError(bad);
 
-		  pass=Auth.hashPass(pass);
+	  pass=Auth.hashPass(pass);
 
-		  return conn().getRepository(User).findOne({ email }).then(user=>{
-		    if(user) throw new UserInputError(E400['EXISTS'][lang])
+	  let exist = await conn().getRepository(User).findOne({ email })
+	  if(exist) throw new UserInputError(E400['EXISTS'][lang])
   		  	
-  		  	return conn()
-  			  .getRepository(User)
-  			  .save({name, email, pass, lang})
-  			  .then(user=>new Auth(user));
-  		  })
-		},
+  	  return conn()
+  			.getRepository(User)
+  			.save({name, email, pass, lang})
+  			.then(user=>new Auth(user));
+	},
 
-		login: (_,{ email, pass })=>{
-		  let hashPass = Auth.hashPass(pass)
-		  return conn().getRepository(User).findOne({ email }).then(user=>{
-			if(!user)				
-				throw new AuthenticationError(E400['NOT_REGISTER']['es']);
+	login: async(_,{ email, pass })=>{
+	  let hashPass = Auth.hashPass(pass)
+	  let user = await conn().getRepository(User).findOne({ email })
+	  if(!user)				
+		  throw new AuthenticationError(E400['NOT_REGISTER']['es']);
 			
-			if(user.email.toUpperCase() == email.toUpperCase() 
-			  && user.pass == hashPass)	
-				return new Auth(user);
+	  if(user.email.toUpperCase() == email.toUpperCase() 
+		&& user.pass == hashPass)	
+		  return new Auth(user);
 		
-			else
-				throw new AuthenticationError(E400['BAD_LOGIN'][user.lang]);
-			});
-		}
+	  else
+		  throw new AuthenticationError(E400['BAD_LOGIN'][user.lang]);
 	}
+  }
 }
 
 /*

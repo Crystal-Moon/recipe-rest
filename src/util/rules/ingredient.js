@@ -9,7 +9,7 @@ export default {
 	},
 	cant:{
 		type: 'string',
-		format: x => /^(([0-9]{1,4})(g|gr|kg|l|ml|cc|cm|taza|tazas|cup|cups|tbsp|tsp|fl oz|oz|lb|pulg|"|'|C|F)(\.|)|(some|pizca|poco|a gusto))/.test(x)?false:
+		format: x => /^(([0-9]{1,4})(g|gr|kg|l|ml|cc|cm|taza|tazas|cup|cups|tbsp|tsp|cdita|cda|fl oz|oz|lb|pulg|"|'|C|F)(\.|)|(some|pizca|poco|a gusto))/.test(x)?false:
 		{
 			es: 'use abreviaturas, ej. gr,kg,ml,cc,oz,lb,taza,cup,etc.; haga converciones, ej. 1000gr => 1kg',
 			en: 'use abbreviations, eg. gr,kg,ml,cc,oz,lb,taza,cup,etc.; converts, eg. 1000gr => 1kg'

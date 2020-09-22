@@ -26,7 +26,7 @@ try{
 
     let bad_format=await r[k].format(obj[k],lang);
   	if(bad_format)
-      throw `${rule.toUpperCase()}: ${k.toUpperCase()}: ${bad_format[lang]||bad_format}`;
+      throw `${k.toUpperCase()}: ${bad_format[lang]||bad_format}`;
   }
 
   return false;
