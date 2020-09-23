@@ -33,7 +33,7 @@ export default {
     createCategory: combineResolvers( isAuthenticated, 
       async(_, { name } ,{ who })=>{
         let bad = await verifyFields('category', { name }, who.lang);
-        if(bad) throw new UserInputError(bad ;
+        if(bad) throw new UserInputError(bad);
 
         return newCategory(name,who);
     }),
