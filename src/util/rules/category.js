@@ -1,5 +1,5 @@
 export default {
-	id:{
+	id: {
 		type: 'number',
 		format: x => /[0-9]{1,11}/.test(x)?false:
 		{
@@ -7,7 +7,7 @@ export default {
 			en: 'must be a number'
 		}
 	},
-	name:{
+	name: {
 		type: 'string',
 		format: x => /^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ]{2,20}$/.test(x)?false:
 		{

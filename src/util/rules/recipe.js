@@ -1,14 +1,14 @@
-import { verifyFields } from '../verify'
+import { verifyFields } from '../verify';
 
 export default {
-	id:{
+	id: {
 		type: 'number',
 		format: x => /[0-9]{1,11}/.test(x)?false:{
 			es: 'debe ser un numero',
 			en: 'must be a number'
 		}
 	},
-	name:{
+	name: {
 		type: 'string',
 		format: x => /^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ()\[\]/\.\-_]{2,50}$/.test(x)?false:
 		{
@@ -16,7 +16,7 @@ export default {
 			en: 'must has between 2 y 50 caracters, without special symbols'
 		}
 	},
-	description:{
+	description: {
 		type: 'string',
 		format: x => x.length < 500?false:
 		{
@@ -24,7 +24,7 @@ export default {
 			en: 'must have maximum 500 characters.'
 		}
 	},
-	ingredients:{
+	ingredients: {
 		type: 'object',
 		format: (x,l) => (!Array.isArray(x) || !x[0])?
 		{
@@ -33,7 +33,7 @@ export default {
 		}
 		: x.reduce(async(bad,i) => bad || await verifyFields('ingredient',i,l),0),
 	},
-	category:{
+	category: {
 		type: 'object',
 		format: async (x,l) => await verifyFields('category',x,l)
 	}

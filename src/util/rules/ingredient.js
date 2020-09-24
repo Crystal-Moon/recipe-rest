@@ -1,5 +1,5 @@
 export default {
-	name:{
+	name: {
 		type: 'string',
 		format: x => /^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ'"\-_/\\()\[\].,]{2,100}$/.test(x)?false:
 		{
@@ -7,7 +7,7 @@ export default {
 			en: 'must has between 2 y 100 caracters, without special symbols'
 		}
 	},
-	cant:{
+	cant: {
 		type: 'string',
 		format: x => /(([0-9\.,]{1,4})(g|gr|kg|l|ml|cc|cm|u|un|taza|tazas|cup|cups|tbsp|tsp|cdita|cda|fl oz|oz|lb|pulg|"|'|C|F)(\.|)|(some|pizca|poco|a gusto))/g.test(x)?false:
 		{

@@ -1,5 +1,5 @@
 export default {
-	name:{
+	name: {
 		type: 'string',
 		format: x => /^[a-zA-Z áéíóúÁÉÍÓÚñÑ]{2,25}$/.test(x)?false:
 		{
@@ -7,7 +7,7 @@ export default {
 			en: 'must has between 2 y 25 caracters, without symbols'
 		}
 	},
-	email:{
+	email: {
 		type: 'string',
 		format: x => /^[a-zA-Z0-9._\-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/.test(x)?false:
 		{
@@ -15,7 +15,7 @@ export default {
 			en: 'must be valid email'
 		}
 	},
-	pass:{
+	pass: {
 		type: 'string',
 		format: x => /[a-zA-Z0-9]{6,20}/.test(x)?false:
 		{
@@ -23,7 +23,7 @@ export default {
 			en: 'must has between 6 y 20 caracters, only letters and numbers'
 		}
 	},
-	lang:{
+	lang: {
 		type: 'string',
 		format: x => /(es|en)/.test(x)?false:
 		{
