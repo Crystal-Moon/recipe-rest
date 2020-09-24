@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 
 export class Auth {
-
 	constructor(user){
 		this.user=user;
 		this.token=this.encode(user);
