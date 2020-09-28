@@ -39,5 +39,5 @@ app.get('/',(req,res)=>{
 server.applyMiddleware({ app });
  
 app.listen({ port: process.env.PORT || 4000 },()=> 
-	console.log(`Playground at http://localhost:${ process.env.PORT || 4000 }${server.graphqlPath}`) 
+	console.log(`Server on :D`) 
 );
