@@ -1,8 +1,11 @@
 {
   "presets": [
-    "es2015"
+    "env", "stage-0"
   ],
   "plugins": [
+  	["transform-runtime", {
+      "regenerator": true
+    }],
     "transform-decorators-legacy",
     "transform-class-properties",
     "transform-es2015-modules-commonjs"

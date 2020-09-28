@@ -2,10 +2,10 @@
   "name": "recipe-rest",
   "version": "1.0.0",
   "description": "Servidor nodejs-graphql",
-  "main": "index.js",
+  "main": "./build/app.js",
   "scripts": {
     "test": "nodemon --exec babel-node src/app.js",
-    "build": "babel src/ --out-dir build",
+    "build": "babel -d ./build ./src -s",
     "start": "npm run build && node ./build/app.js"
   },
   "repository": {
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Crystal-Moon/recipe-rest#readme",
   "dependencies": {
     "apollo-server-express": "^2.17.0",
+    "babel-preset-env": "^1.7.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql-resolvers": "^0.4.2",
@@ -30,10 +31,15 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "nodemon": "^2.0.4"
   }
 }
