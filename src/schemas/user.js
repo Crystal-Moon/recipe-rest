@@ -3,7 +3,7 @@ export default `
   	# Usar el token en la propiedad "x-token" en la cabecera.
   	token: String
   	# Fecha en Unix de cuando vencerá el token
-    expire_at: Int
+    expire_at: Float
   	user: User
   }
 
