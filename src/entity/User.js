@@ -4,7 +4,9 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class User {
 
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn({
+        type: 'int'
+    })
     id = undefined;
 
     @Column({
