@@ -22,13 +22,5 @@ export default {
 			es: 'debe tener entre 6 y 20 caracteres, solo letras y numeros',
 			en: 'must has between 6 y 20 caracters, only letters and numbers'
 		}
-	},
-	lang:{
-		type: 'string',
-		format: x => /(es|en)/.test(x)?false:
-		{
-			es: 'usar ISO 639-1 (2 letras minusculas)',
-			en: 'use ISO 639-1 (2 lowercase letter)'
-		}
 	}
 }
