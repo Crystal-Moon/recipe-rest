@@ -9,7 +9,7 @@ import E400 from '../util/E400';
 export default {
   Mutation:{
 	registrate: async(_, { name, email, pass, lang })=>{
-	  lang = /(es|en)/.test(x)? lang : 'es';
+	  lang = /(es|en)/.test(lang)? lang : 'es';
 	  let bad = await verifyFields('user',{name, email, pass}, lang);
 	  if(bad) throw new UserInputError(bad);
 
