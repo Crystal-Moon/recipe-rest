@@ -35,7 +35,11 @@ export default {
 
     getMyRecipes: combineResolvers( isAuthenticated,
       (_, { name }, { who })=> {  
-        return conn().getRepository(Recipe).find({ is_erase: false, author: who })
+        return conn().getRepository(Recipe).find({ 
+                  is_erase: false, 
+                  author: who, 
+                  where: {category: {is_erase: false}} 
+              })
     })
 	},
 
