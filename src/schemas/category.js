@@ -7,7 +7,7 @@ export default `
   type Category {
     id: Int
     name: String
-    # Se establee automaticamente
+    # Se establece automaticamente
     author: User
   }
 `

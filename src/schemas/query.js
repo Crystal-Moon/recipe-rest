@@ -13,7 +13,7 @@ export default `
     getCategories: [Category]
     # Retorna una sola categoría
     getOneCategory(id: Int!): Category
-    # Retorna las categorias dsel usuario.
+    # Retorna las categorias del usuario.
     getMyCategories: [Category]
   }
 `;
