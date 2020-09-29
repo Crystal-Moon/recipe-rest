@@ -42,3 +42,7 @@ TYPEORM_ENTITIES=build/entity/*.js
 # Token
 JWT_KEY=some_key
 ```
+
+---
+
+:carousel_horse: Todo proyecto de mi autoría es de libre uso y mejora para quién desee hacerlo :octocat:

@@ -8,14 +8,253 @@
 	<style>
 html{background-color: #172a3a;color: white;font-family: sans-serif;}
 p{font-family: monospace;font-size: 1.2em;}
+p:last-child{font-size: 0.85em;text-align: center;margin-bottom: 1em;padding-bottom: 2em;}
 a{color: #38bdc1;}
 a:visited{color: #d64292;}
 a:hover{color: white;}
+h4{margin: 0;text-align: center;margin-bottom: 0.5em;margin-top: 2em;}
+pre{background-color: #b8bec3;width: 100%;margin:auto;}
+div{max-height: 680px;width: 80%;margin: auto;overflow-x: hidden;}
 	</style>
 </head>
 <body>
 	<h2>Welcome to Recipe API</h2>
 	<p>&#128452;Repository: <a href="https://github.com/Crystal-Moon/recipe-rest" target="_blank">GitHub</a></p>
 	<p>&#128640;Playground: <a href="./graphql">Graphql with Apollo</a></p>
+	<h4>querys/mutations for practice </h4>
+<div>
+<pre class="prettyprint">
+ # User
+ mutation registrate($name: String!, $email: String!, $pass: String!) {
+  registrate(name: $name, email: $email, pass: $pass){
+    token
+    expire_at
+    user {
+      id
+      name
+      email
+    }
+  }
+ }
+
+ mutation login($email: String!, $pass: String!) {
+  login(email: $email, pass: $pass){
+    token
+    expire_at
+    user {
+      id
+      name
+      email
+    }
+  }
+ }
+
+ #---- since here, use "x-token" in HTTP Headers -----
+ # Recipes
+ query getRecipes {
+  getRecipes{
+    id
+    name
+    description
+    ingredients {
+      name
+      cant
+    }
+    category {
+      id
+      name
+      author {
+        name
+      }
+    }
+    author{
+      name
+    }
+  }
+ }
+
+ query getOneRecipe($id: Int!) {
+  getOneRecipe(id: $id) {
+    id
+    name
+    description
+    ingredients {
+      name
+      cant
+    }
+    category {
+      id
+      name
+      author {
+        name
+      }
+    }
+    author{
+      name
+    }
+  }
+ }
+
+ query getRecipesByCategory($name: String!) {
+  getRecipesByCategory(name: $name) {
+    id
+    name
+    description
+    ingredients {
+      name
+      cant
+    }
+    category {
+      id
+      name
+      author {
+        name
+      }
+    }
+    author{
+      name
+    }
+  }
+ }
+
+ query getMyRecipes {
+  getMyRecipes {
+    id
+    name
+    description
+    ingredients {
+      name
+      cant
+    }
+    category {
+      id
+      name
+      author {
+        name
+      }
+    }
+    author{
+      name
+    }
+  }
+ }
+
+ mutation createRecipe($name: String!, $ingredients: [InputIngredient!]!, $category: InputCategory!, $description: String) {
+  createRecipe(name: $name, ingredients: $ingredients, category: $category, description: $description) {
+    id
+    name
+    description
+    ingredients {
+      id
+      name
+      cant
+    }
+    category {
+      id
+      name
+      author {
+        id
+        name
+      }
+    }
+    author{
+      id
+      name
+    }
+  }
+ }
+
+ mutation updateRecipe($id: Int!, $name: String!, $ingredients: [InputIngredient!]!, $category: InputCategory!, $description: String) {
+  updateRecipe(id: $id, name: $name, ingredients: $ingredients, category: $category, description: $description){
+    id
+    name
+    description
+    ingredients {
+      id
+      name
+      cant
+    }
+    category {
+      id
+      name
+      author {
+        id
+        name
+      }
+    }
+    author{
+      id
+      name
+    }
+  }
+ }
+
+ mutation deleteRecipe($id: Int!) {
+  deleteRecipe(id: $id)
+ }
+
+ # Category
+ query getCategories {
+  getCategories {
+    id
+    name
+    author {
+      id
+      name
+    }
+  }
+ }
+
+ query getOneCategory($id: Int!){
+  getOneCategory(id: $id){
+    id
+    name
+    author {
+      id
+      name
+    }
+  }
+ }
+
+ query getMyCategories {
+  getMyCategories {
+    id
+    name
+    author {
+      id
+      name
+    }
+  }
+ }
+
+ mutation createCategory($name: String!){
+  createCategory(name: $name){
+    id
+    name
+    author {
+      id
+      name
+    }
+  }
+ }
+
+ mutation updateCategory($id: Int!, $name: String!){
+  updateCategory(id: $id, name: $name){
+    id
+    name
+    author {
+      id
+      name
+    }
+  }
+ }
+
+ mutation deleteCategory($id: Int!){
+  deleteCategory(id: $id)
+ }
+</pre>
+</div>
+	<p>Prettificado con <a href="https://github.com/googlearchive/code-prettify" target="_blank">google-prettify</a></p>
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 </body>
 </html>
