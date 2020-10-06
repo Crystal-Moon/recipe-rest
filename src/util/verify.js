@@ -11,8 +11,8 @@ import category from './rules/category';
 export const isAuthenticated = (_, args, req)=> {
   if(!req.token) throw new AuthenticationError(E400.TOKEN_NOT_FOUND['es']);
   else {
-    req.who = Auth.decode(req.token);
-    return req.who? skip : new AuthenticationError(E400.BAD_TOKEN['es']);
+    req.user = Auth.decode(req.token);
+    return req.user? skip : new AuthenticationError(E400.BAD_TOKEN['es']);
   }
 }
 
@@ -29,7 +29,7 @@ try {
   }
 
   return false;
-}catch(bad) { 
-  return bad 
+}catch(error) { 
+  return error
 }
 }

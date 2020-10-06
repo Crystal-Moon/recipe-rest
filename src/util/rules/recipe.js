@@ -31,7 +31,7 @@ export default {
 			es: 'debe ser una lista con al menos un elemento.',
 			en: 'must be a list with at least one element'
 		}
-		: x.reduce(async(bad,i) => await bad || await verifyFields('ingredient',i,l), 0),
+		: x.reduce(async(badAccumulator,i) => await badAccumulator || await verifyFields('ingredient',i,l), 0),
 	},
 	category: {
 		type: 'object',
