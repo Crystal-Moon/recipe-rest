@@ -1,6 +1,6 @@
 
 import { UserInputError, ForbiddenError, ApolloError } from 'apollo-server-express';
-import { getConnection as conn } from 'typeorm';
+import { getConnection as conn, In } from 'typeorm';
 import { combineResolvers } from 'graphql-resolvers';
 import { verifyFields, isAuthenticated } from '../util/verify';
 import { Recipe } from '../entity/Recipe';
@@ -25,11 +25,17 @@ export default {
 
     getRecipesByCategory: combineResolvers( isAuthenticated,
       async(_, { name }, { user })=> {
-        let categories = await conn().getRepository(Category).find({ is_erase: false, name: name.toLowerCase() });
-        return (!categories || !categories.length)? [] 
-          : conn().getRepository(Recipe).find({ 
+        let categories= await conn().getRepository(Category)
+          .createQueryBuilder('category')
+          .select('id')
+          .where('category.name = :name', { name: name.toLowerCase() } )
+          .andWhere('category.is_erase = :is_erase', { is_erase: false })
+          .getRawMany();
+          // console.log(categories) // output: [{ id: 17 }, { id: 20 }] // map() is necesary :(
+
+        return conn().getRepository(Recipe).find({ 
                   is_erase:false, 
-                  where: categories.map(c=> ({category:{ id: c.id }}) )    
+                  where: { category: In( categories.map(c=>c.id) ) }    
               })
     }),
 
